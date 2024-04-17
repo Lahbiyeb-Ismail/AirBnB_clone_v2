@@ -16,13 +16,13 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """Class Docs"""
+    """Class that is responsible for MySQL db storage"""
 
     __engine = None
     __session = None
 
     def __init__(self):
-        """Function Docs"""
+        """Create the engine (self.__engine)"""
         hb_user = getenv("HBNB_MYSQL_USER")
         hb_pwd = getenv("HBNB_MYSQL_PWD")
         hb_host = getenv("HBNB_MYSQL_HOST")
@@ -38,7 +38,9 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def reload(self):
-        """ reload method """
+        """Create all tables in the database and
+        create the current database session """
+
         Base.metadata.create_all(self.__engine)
         Session = scoped_session(
             sessionmaker(bind=self.__engine, expire_on_commit=False)
@@ -46,7 +48,7 @@ class DBStorage:
         self.__session = Session()
 
     def all(self, cls=None):
-        """query on the current database session"""
+        """Query on the current database session"""
         new_dict = {}
 
         for cls_name in classes:
@@ -58,24 +60,16 @@ class DBStorage:
 
         return (new_dict)
 
-    def search(self, cls, id):
-        """ def doc """
-        data = self.all(cls)
-
     def new(self, obj):
-        """add new obj"""
+        """Add new object to the current database session"""
         if obj:
             self.__session.add(obj)
 
     def save(self):
-        """commit all changes"""
+        """Commit all changes of the current database session"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """delete from the current database session"""
+        """Delete from the current database session"""
         if obj:
             self.__session.delete(obj)
-
-    def close(self):
-        """doc meth"""
-        self.__session.close()
