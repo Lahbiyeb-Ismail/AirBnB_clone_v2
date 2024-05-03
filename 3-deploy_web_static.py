@@ -25,7 +25,7 @@ def do_pack():
     archive_path = "versions/web_static_{}.tgz".format(time_format)
 
     # Compress the web_static folder into the archive
-    compress_file = local("tar -czvf {} web_static".format(archive_path))
+    compress_file = local("sudo tar -czvf {} web_static".format(archive_path))
 
     if compress_file is not None:
         return archive_path
@@ -47,12 +47,12 @@ def do_deploy(archive_path):
         path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
         run('sudo mkdir -p {}{}/'.format(path, no_ext))
-        run('tar -xzf /tmp/{} -C {}{}/'.format(file_n, path, no_ext))
+        run('sudo tar -xzf /tmp/{} -C {}{}/'.format(file_n, path, no_ext))
         run('sudo rm /tmp/{}'.format(file_n))
         run('sudo mv {0}{1}/web_static/* {0}{1}/'.format(path, no_ext))
         run('sudo rm -rf {}{}/web_static'.format(path, no_ext))
         run('sudo rm -rf /data/web_static/current')
-        run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
+        run('sudo ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
     except Exception as e:
         print(e)
         return False
