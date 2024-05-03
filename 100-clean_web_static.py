@@ -41,25 +41,15 @@ def do_clean(number=0):
     Returns:
       None
     """
-    number = int(number)
+    number = 1 if int(number) == 0 else int(number)
 
-    if number < 0:
-        number = 0
-    elif number == 1:
-        number = 2
+    archives = sorted(os.listdir("versions"))
+    [archives.pop() for i in range(number)]
+    with lcd("versions"):
+        [local("rm ./{}".format(a)) for a in archives]
 
-    with cd('/data/web_static/releases'):
-        releases = run('ls -1t').split('\n')
-        to_delete = releases[number:]
-        for release in to_delete:
-            run('rm -rf {}'.format(release))
-
-    with cd('/data/web_static/current'):
-        current_release = run('ls -l | grep web_static | awk \'{print $11}\'')
-        current_release = os.path.basename(current_release)
-        releases = run('ls -1t ../releases').split('\n')
-        to_delete = releases[number:]
-
-        for release in to_delete:
-            if release != current_release:
-                run('rm -rf ../releases/{}'.format(release))
+    with cd("/data/web_static/releases"):
+        archives = run("ls -tr").split()
+        archives = [a for a in archives if "web_static_" in a]
+        [archives.pop() for i in range(number)]
+        [run("rm -rf ./{}".format(a)) for a in archives]
