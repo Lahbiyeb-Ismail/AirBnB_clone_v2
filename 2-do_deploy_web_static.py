@@ -32,6 +32,10 @@ env.hosts = ['54.234.100.117', '35.153.79.92']
 
 
 def do_deploy(archive_path):
+    """
+    This script contains a function called `do_deploy` that deploys a compress
+    archive to a web server
+    """
     if not os.path.exists(archive_path):
         return False
 
