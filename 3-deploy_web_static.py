@@ -8,28 +8,36 @@ execute: fab -f 3-deploy_web_static.py deploy -i ~/.ssh/id_rsa -u ubuntu
 
 from fabric.api import env, local, put, run
 from datetime import datetime
-from os.path import exists, isdir
+from os.path import exists, makedirs
 env.hosts = ['54.160.77.90', '10.25.190.21']
 
 
 def do_pack():
-    """generates a tgz archive"""
-    date = datetime.now().strftime("%Y%m%d%H%M%S")
+    """Generates a .tgz archive from the contents of the web_static folder"""
+    # Create the versions folder if it doesn't exist
+    if not exists("versions"):
+        makedirs("versions")
 
-    if isdir("versions") is False:
-        local("mkdir versions")
+    # Create the archive path
+    now = datetime.now()
+    time_format = now.strftime("%Y%m%d%H%M%S")
+    archive_path = "versions/web_static_{}.tgz".format(time_format)
 
-    file = "versions/web_static_{}.tgz".format(date)
+    # Compress the web_static folder into the archive
+    compress_file = local("tar -czvf {} web_static".format(archive_path))
 
-    if local("tar -cvzf {} web_static".format(file)).failed is True:
-        return None
+    if compress_file is not None:
+        return archive_path
 
-    return file
+    return None
 
 
 def do_deploy(archive_path):
-    """distributes an archive to the web servers"""
-    if exists(archive_path) is False:
+    """
+    This script contains a function called `do_deploy` that deploys a compress
+    archive to a web server
+    """
+    if not exists(archive_path):
         return False
 
     try:
@@ -54,6 +62,7 @@ def do_deploy(archive_path):
 def deploy():
     """creates and distributes an archive to the web servers"""
     archive_path = do_pack()
+
     if archive_path is None:
         return False
 
