@@ -36,31 +36,17 @@ def do_deploy(archive_path):
         return False
 
     try:
-        # Upload the archive to the /tmp/ directory of the web server
+        file_n = archive_path.split("/")[-1]
+        no_ext = file_n.split(".")[0]
+        path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
-
-        # Get the filename without extension
-        file_n = os.path.basename(archive_path)
-        file_no_ext = os.path.splitext(file_n)[0]
-
-        # Uncompress the archive to the folder
-        # /data/web_static/releases/<archive
-        # filename without extension> on the web server
-        run('mkdir -p /data/web_static/releases/{}'.format(file_no_ext))
-        run('tar -xzf /tmp/{} -C /data/web_static/releases/{}\
-          '.format(file_n, file_no_ext))
-
-        # Delete the archive from the web server
+        run('mkdir -p {}{}/'.format(path, no_ext))
+        run('tar -xzf /tmp/{} -C {}{}/'.format(file_n, path, no_ext))
         run('rm /tmp/{}'.format(file_n))
-
-        # Delete the symbolic link /data/web_static/current from the web server
+        run('mv {0}{1}/web_static/* {0}{1}/'.format(path, no_ext))
+        run('rm -rf {}{}/web_static'.format(path, no_ext))
         run('rm -rf /data/web_static/current')
-
-        # Create a new symbolic link /data/web_static/current on the
-        # web server, linked to the new version of your code
-        run('ln -s /data/web_static/releases/{}/ /data/web_static/current\
-          '.format(file_no_ext))
-
+        run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
         return True
     except:
         return False
