@@ -14,21 +14,24 @@ env.hosts = ['54.160.77.90', '10.25.190.21']
 
 def do_pack():
     """generates a tgz archive"""
-    try:
-        date = datetime.now().strftime("%Y%m%d%H%M%S")
-        if isdir("versions") is False:
-            local("mkdir versions")
-        file_name = "versions/web_static_{}.tgz".format(date)
-        local("tar -cvzf {} web_static".format(file_name))
-        return file_name
-    except:
+    date = datetime.now().strftime("%Y%m%d%H%M%S")
+
+    if isdir("versions") is False:
+        local("mkdir versions")
+
+    file = "versions/web_static_{}.tgz".format(date)
+
+    if local("tar -cvzf {} web_static".format(file)).failed is True:
         return None
+
+    return file
 
 
 def do_deploy(archive_path):
     """distributes an archive to the web servers"""
     if exists(archive_path) is False:
         return False
+
     try:
         file_n = archive_path.split("/")[-1]
         no_ext = file_n.split(".")[0]
@@ -41,9 +44,11 @@ def do_deploy(archive_path):
         run('rm -rf {}{}/web_static'.format(path, no_ext))
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
-        return True
-    except:
+    except Exception as e:
+        print(e)
         return False
+
+    return True
 
 
 def deploy():
@@ -51,4 +56,5 @@ def deploy():
     archive_path = do_pack()
     if archive_path is None:
         return False
+
     return do_deploy(archive_path)
