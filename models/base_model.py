@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
-import models
 import uuid
-import datetime
+from datetime import datetime
 
+from sqlalchemy import Column, DateTime, String
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, DateTime
+
+import models
 
 if models.storage_type == "db":
     Base = declarative_base()
@@ -19,22 +20,18 @@ class BaseModel:
     if models.storage_type == "db":
         id = Column(String(60), primary_key=True,
                     nullable=False, unique=True)
-        created_at = Column(DateTime, nullable=False,
-                            default=datetime.datetime.utcnow)
-        updated_at = Column(DateTime, nullable=False,
-                            default=datetime.datetime.utcnow,
-                            onupdate=datetime.datetime.utcnow)
+        created_at = Column(DateTime, nullable=False, default=datetime.now())
+        updated_at = Column(DateTime, nullable=False, default=datetime.now())
 
     def __init__(self, *args, **kwargs) -> None:
         """Initialization of BaseModel Class"""
         self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         if kwargs:
             for key, value in kwargs.items():
                 if key in ["created_at", "updated_at"]:
-                    date = datetime.datetime.strptime(
-                        value, "%Y-%m-%dT%H:%M:%S.%f")
+                    date = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                     setattr(self, key, date)
                 elif key != "__class__":
                     setattr(self, key, value)
@@ -46,7 +43,7 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
 

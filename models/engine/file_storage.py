@@ -36,13 +36,13 @@ class FileStorage:
 
     def reload(self):
         """Loads storage dictionary from file"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
         from models.amenity import Amenity
+        from models.base_model import BaseModel
+        from models.city import City
+        from models.place import Place
         from models.review import Review
+        from models.state import State
+        from models.user import User
 
         classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
@@ -71,3 +71,10 @@ class FileStorage:
             if obj_key in FileStorage.__objects:
                 del FileStorage.__objects[obj_key]
                 self.save()
+
+    def close(self):
+        """
+        call reload() method for deserializing
+        the JSON file to objects
+        """
+        self.reload()

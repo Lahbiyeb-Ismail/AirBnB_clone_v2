@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-from models.base_model import BaseModel, Base
-from models import storage_type
-from models.city import City
-
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+
+from models import storage_type
+from models.base_model import Base, BaseModel
+from models.city import City
 
 
 class State(BaseModel, Base):
@@ -23,16 +23,18 @@ class State(BaseModel, Base):
         """initializes State"""
         super().__init__(*args, **kwargs)
 
-    @property
-    def cities(self):
-        """returns the list of City instances"""
-        from models import storage
+    if storage_type != "db":
 
-        cities_instances = []
-        all_cities = storage.all(City)
+        @property
+        def cities(self):
+            """returns the list of City instances"""
+            from models import storage
 
-        for city in all_cities.values():
-            if city.state_id == self.id:
-                cities_instances.append(city)
+            cities_instances = []
+            all_cities = storage.all("City")
 
-        return cities_instances
+            for city in all_cities.values():
+                if city.state_id == self.id:
+                    cities_instances.append(city)
+
+            return cities_instances
