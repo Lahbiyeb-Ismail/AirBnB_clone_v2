@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """
 script that starts a Flask web application
 """
@@ -9,19 +11,35 @@ app = Flask(__name__)
 
 @app.route("/", strict_slashes=False)
 def index():
-    return "Hello, HBNB!"
+    """
+    This function returns a greeting message.
+    """
+    return "Hello HBNB!"
 
 
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
+    """
+    Returns the string "HBNB".
+    """
     return "HBNB"
 
 
 @app.route("/c/<text>", strict_slashes=False)
 def c_route(text):
+    """
+    Replaces underscores in the given text with spaces
+    and prefixes the text with 'C'.
+
+    Args:
+        text (str): The input text.
+
+    Returns:
+        str: The modified text with underscores replaced
+        by spaces and prefixed with 'C'.
+    """
     new_text = [" "] * len(text)
 
-    # new_text = text.replace("_", " ")
     for i in range(len(text)):
         if text[i] != "_":
             new_text[i] = text[i]
