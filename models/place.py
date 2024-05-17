@@ -8,21 +8,29 @@ import models
 from models.base_model import Base, BaseModel
 
 if models.storage_type == "db":
-    place_amenity = Table('place_amenity', Base.metadata,
-                          Column('place_id', String(60),
-                                 ForeignKey('places.id', onupdate='CASCADE',
-                                            ondelete='CASCADE'),
-                                 primary_key=True),
-                          Column('amenity_id', String(60),
-                                 ForeignKey('amenities.id', onupdate='CASCADE',
-                                            ondelete='CASCADE'),
-                                 primary_key=True))
+    place_amenity = Table(
+        "place_amenity",
+        Base.metadata,
+        Column(
+            "place_id",
+            String(60),
+            ForeignKey("places.id", onupdate="CASCADE", ondelete="CASCADE"),
+            primary_key=True,
+        ),
+        Column(
+            "amenity_id",
+            String(60),
+            ForeignKey("amenities.id", onupdate="CASCADE", ondelete="CASCADE"),
+            primary_key=True,
+        ),
+    )
 
 
 class Place(BaseModel, Base):
     """Representation of Place """
     if models.storage_type == "db":
         __tablename__ = 'places'
+
         city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
         user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
         name = Column(String(128), nullable=False)
@@ -34,9 +42,12 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", backref="place")
-        amenities = relationship("Amenity", secondary="place_amenity",
-                                 backref="place_amenities",
-                                 viewonly=False)
+        amenities = relationship(
+            "Amenity",
+            secondary="place_amenity",
+            backref="place_amenities",
+            viewonly=False,
+        )
     else:
         city_id = ""
         user_id = ""

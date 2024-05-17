@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """This module defines a class User"""
-from models.base_model import BaseModel, Base
-from models import storage_type
-
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+
+from models import storage_type
+from models.base_model import Base, BaseModel
 
 
 class User(BaseModel, Base):
@@ -17,8 +17,8 @@ class User(BaseModel, Base):
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
-        places = relationship('Place', cascade="all, delete", backref="user")
-        reviews = relationship('Review', cascade="all, delete", backref="user")
+        places = relationship("Place", backref="user")
+        reviews = relationship("Review", backref="user")
     else:
         email = ''
         password = ''
