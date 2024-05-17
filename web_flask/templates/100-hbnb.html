@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles/4-common.css">
+    <link rel="stylesheet" href="../static/styles/3-header.css">
+    <link rel="stylesheet" href="../static/styles/3-footer.css">
+    <link rel="stylesheet" href="../static/styles/6-filters.css">
+    <link rel="stylesheet" href="../static/styles/8-places.css">
+    <title>Airbnb</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../static/images/logo.png" alt="airbnb logo">
+        </div>
+    </header>
+    <div class="container">
+        <section class="filters">
+            <div class="locations">
+                <div class="filters_tag">
+                    <h3>States</h3>
+                    <h4>&nbsp;</h4>
+                </div>
+                <ul class="popover">
+                    {% for state in states|sort(attribute='name') %}
+                    <li>
+                        <h2>{{ state.name }}</h2>
+                        <ul>
+                            {% for city in state.cities|sort(attribute='name') %}
+                            <li>{{ city.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="amenities">
+                <div class="filters_tag">
+                    <h3>Amenities</h3>
+                    <h4>&nbsp;</h4>
+                </div>
+
+                <ul class="popover">
+                    {% for amenity in amenities|sort(attribute='name') %}
+                    <li>{{ amenity.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <button>Search</button>
+        </section>
+
+        <section class="places">
+            <h1>Places</h1>
+            <div class="places_container">
+                <article>
+                    <div class="places_head">
+                        <h2>
+                            My home
+                        </h2>
+
+                        <div class="price_by_night">$80</div>
+                    </div>
+
+                    <div class="information">
+                        <div class="max_guest">
+                            <img src="../static/images/icon_group.png" alt="guests">
+                            <p>
+                                2 Guests
+                            </p>
+                        </div>
+                        <div class="number_rooms">
+                            <img src="../static/images/icon_bed.png" alt="bedrooms">
+                            <p>
+                                1 Bedroom
+                            </p>
+                        </div>
+                        <div class="number_bathrooms">
+                            <img src="../static/images/icon_bath.png" alt="number bathrooms">
+                            <p>
+                                1 Bathroom
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="user">
+                        <p><strong>Owner:</strong> John Doe</p>
+                    </div>
+
+                    <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo ut harum ab
+                        distinctio reprehenderit nihil!</div>
+
+                    <div class="places_amenities">
+                        <h2>Amenities</h2>
+                        <ul>
+                            <li>
+                                <img src="../static/images/icon_pets.png" alt="pets icon">
+
+                                <p>Pets Friendly</p>
+                            </li>
+                            <li>
+                                <img src="../static/images/icon_tv.png" alt="pets icon">
+                                <p>TV</p>
+                            </li>
+                            <li>
+                                <img src="../static/images/icon_wifi.png" alt="pets icon">
+                                <p>WIFI</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="places_reviews">
+                        <h2>Reviews</h2>
+
+                        <ul>
+                            <li>
+                                <h3>From Bob Dylan the 27th January 2017</h3>
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dolor illo
+                                    est odit nobis. Repellat.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+                <!-- ****************************  -->
+                <article>
+                    <div class="places_head">
+                        <h2>
+                            Tiny house
+                        </h2>
+
+                        <div class="price_by_night">$65</div>
+                    </div>
+
+                    <div class="information">
+                        <div class="max_guest">
+                            <img src="../static/images/icon_group.png" alt="guests">
+                            <p>
+                                4 Guests
+                            </p>
+                        </div>
+                        <div class="number_rooms">
+                            <img src="../static/images/icon_bed.png" alt="bedrooms">
+                            <p>
+                                2 Bedrooms
+                            </p>
+                        </div>
+                        <div class="number_bathrooms">
+                            <img src="../static/images/icon_bath.png" alt="number bathrooms">
+                            <p>
+                                1 Bathroom
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="user">
+                        <p><strong>Owner:</strong> Lionel Messi</p>
+                    </div>
+
+                    <div class="description">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae neque nostrum dolorem
+                        itaque, dolorum adipisci quisquam, dolores tenetur odio, accusamus ut fugit est aperiam sint.
+                    </div>
+
+                    <div class="places_amenities">
+                        <h2>Amenities</h2>
+                        <ul>
+                            <li>
+                                <img src="../static/images/icon_wifi.png" alt="pets icon">
+                                <p>WIFI</p>
+                            </li>
+                            <li>
+                                <img src="../static/images/icon_tv.png" alt="pets icon">
+                                <p>TV</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="places_reviews">
+                        <h2>Reviews</h2>
+
+                        <ul>
+                            <li>
+                                <h3>From Bob Dylan the 27th January 2017</h3>
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dolor illo
+                                    est odit nobis. Repellat.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="places_container">
+                <article>
+                    <div class="places_head">
+                        <h2>
+                            A suite
+                        </h2>
+
+                        <div class="price_by_night">$120</div>
+                    </div>
+
+                    <div class="information">
+                        <div class="max_guest">
+                            <img src="../static/images/icon_group.png" alt="guests">
+                            <p>
+                                4 Guests
+                            </p>
+                        </div>
+                        <div class="number_rooms">
+                            <img src="../static/images/icon_bed.png" alt="bedrooms">
+                            <p>
+                                2 Bedrooms
+                            </p>
+                        </div>
+                        <div class="number_bathrooms">
+                            <img src="../static/images/icon_bath.png" alt="number bathrooms">
+                            <p>
+                                2 Bathrooms
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="user">
+                        <p><strong>Owner:</strong> Adolf Hitler</p>
+                    </div>
+
+                    <div class="description">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde nulla culpa nesciunt dignissimos
+                        repellendus, sequi pariatur eveniet dolores, quisquam ut dolor assumenda dolorem reiciendis
+                        harum.
+                    </div>
+
+                    <div class="places_amenities">
+                        <h2>Amenities</h2>
+                        <ul>
+                            <!-- <li>
+                                <img src="../static/images/icon_wifi.png" alt="pets icon">
+                                <p>WIFI</p>
+                            </li>
+                            <li>
+                                <img src="../static/images/icon_tv.png" alt="pets icon">
+                                <p>TV</p>
+                            </li> -->
+
+                        </ul>
+                    </div>
+
+                    <div class="places_reviews">
+                        <h2>Reviews</h2>
+
+                        <ul>
+                            <li>
+                                <h3>From Bob Dylan the 27th January 2017</h3>
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dolor illo
+                                    est odit nobis. Repellat.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+    <footer>Best School</footer>
+</body>
+
+</html>
