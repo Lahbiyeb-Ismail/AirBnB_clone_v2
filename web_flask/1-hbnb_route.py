@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """
 script that starts a Flask web application
 """
@@ -9,11 +11,17 @@ app = Flask(__name__)
 
 @app.route("/", strict_slashes=False)
 def index():
-    return "Hello, HBNB!"
+    """
+    This function returns a greeting message.
+    """
+    return "Hello HBNB!"
 
 
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
+    """
+    Returns the string "HBNB".
+    """
     return "HBNB"
 
 
