@@ -12,3 +12,21 @@
     </ul>
 </body>
 </html>
+
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        {% block body %}
+        <H1>Number: {{number}} is {{number_type}}</H1>
+
+        <UL>
+            {% for state in states %}
+            <LI>State: {{state.id}}: <B>{{state.name}}</B></LI>
+            {% endfor %}
+        </UL>
+        {% endblock %}
+    </BODY>
+</HTML>
