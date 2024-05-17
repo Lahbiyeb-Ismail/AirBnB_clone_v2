@@ -10,17 +10,21 @@ from models import storage
 app = Flask(__name__)
 
 
-@app.route("/states_list", strict_slashes=False)
-def states_list():
+@app.route("/states", strict_slashes=False)
+@app.route("/states/<state_id>", strict_slashes=False)
+def states(state_id=None):
     """
     Retrieve a list of states and render them in a template.
 
     Returns:
         The rendered template with the list of states.
     """
-    states = sorted(list(storage.all("State").values()), key=lambda x: x.name)
+    if state_id is not None:
+        state_id = "State." + state_id
 
-    return render_template("7-states_list.html", states=states)
+    states = storage.all("State")
+
+    return render_template("9-states.html", states=states, state_id=state_id)
 
 
 @app.teardown_appcontext
